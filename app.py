@@ -36,6 +36,23 @@ def lab1():
             веб-приложений, сознательно предоставляющих лишь самые базовые возможности.
         </p>
         <a href="/">Вернуться на главную</a>
+        <h2>Список роутов</h2>
+        <ul>
+            <li><a href="/lab1/web">/lab1/web</a></li>
+            <li><a href="/lab1/author">/lab1/author</a></li>
+            <li><a href="/lab1/image">/lab1/image</a></li>
+            <li><a href="/lab1/counter">/lab1/counter</a></li>
+            <li><a href="/lab1/clear_counter">/lab1/clear_counter</a></li>
+            <li><a href="/lab1/info">/lab1/info</a></li>
+            <li><a href="/lab1/created">/lab1/created</a></li>
+            <li><a href="/400">/400</a></li>
+            <li><a href="/401">/401</a></li>
+            <li><a href="/402">/402</a></li>
+            <li><a href="/403">/403</a></li>
+            <li><a href="/405">/405</a></li>
+            <li><a href="/418">/418</a></li>
+            <li><a href="/500">/500</a></li>
+        </ul>
     </body>
 </html>
 '''
@@ -137,9 +154,18 @@ def created():
 </html>
 ''', 201
 
+log_404 = []
+
 @app.errorhandler(404)
 def not_found(err):
+    time = datetime.datetime.now()
+    client_ip = request.remote_addr
+    requested_url = request.url
+
+    log_404.append(f"[{time}] пользователь {client_ip} зашёл на адрес: {requested_url}")
+
     path = url_for("static", filename="okak.jpg")
+    log_html = "<br>".join(log_404)
     return '''
 <!doctype html>
 <html>
@@ -158,6 +184,12 @@ def not_found(err):
         <h1>Окак! Страница не найдена</h1>
         <h2>Ошибка 404</h2>
         <img src="''' + path + '''">
+        <p>Ваш IP-адрес: ''' + client_ip + '''</p>
+        <p>Дата и время доступа: ''' + str(time) + '''</p>
+        <p><a href="/">Вернуться на главную</a></p>
+        <hr>
+        <h3>Журнал посещений 404</h3>
+        ''' + log_html + '''
     </body>
 </html>
 '''
