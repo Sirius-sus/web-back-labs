@@ -225,3 +225,11 @@ def error500():
 @app.errorhandler(500)
 def internal_error(err):
     return "Внутренняя ошибка сервера", 500
+
+@app.route("/lab2/a")
+def a1():
+    return 'без слэша'
+
+@app.route("/lab2/a/")
+def a2():
+    return 'со слэшем'
