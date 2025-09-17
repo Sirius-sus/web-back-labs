@@ -135,7 +135,28 @@ def created():
 
 @app.errorhandler(404)
 def not_found(err):
-    return "Нет такой страницы", 404
+    path = url_for("static", filename="okak.jpg")
+    return '''
+<!doctype html>
+<html>
+    <style>
+        body {
+            background-color: #111111;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        img {
+            width: 400px;
+        }
+    </style>
+    <body>
+        <h1>Окак! Страница не найдена</h1>
+        <h2>Ошибка 404</h2>
+        <img src="''' + path + '''">
+    </body>
+</html>
+'''
 
 @app.route("/400")
 def err400():
