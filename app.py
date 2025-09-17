@@ -181,3 +181,11 @@ def err405():
 @app.route("/418")
 def err418():
     return "Я - чайник", 418
+
+@app.route("/500")
+def error500():
+    return 1/0
+
+@app.errorhandler(500)
+def internal_error(err):
+    return "Внутренняя ошибка сервера", 500
