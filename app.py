@@ -85,7 +85,11 @@ def image():
         <img src="''' + path + '''">
     </body>
 </html>
-'''
+''', 200, {
+    'Content-Language': 'ru',
+    'X-Server': 'Flask-Sample',
+    'X-Custom-Header': 'Lab1'
+}
 
 count = 0
 
