@@ -67,33 +67,6 @@ def not_found(err):
 </html>
 '''
 
-@app.route("/400")
-def err400():
-    return "Некорректный запрос", 400
-
-@app.route("/401")
-def err401():
-    return "Не авторизован", 401
-
-@app.route("/402")
-def err402():
-    return "Необходима оплата", 402
-
-@app.route("/403")
-def err403():
-    return "Запрещено", 403
-
-@app.route("/405")
-def err405():
-    return "Метод не поддерживается", 405
-
-@app.route("/418")
-def err418():
-    return "Я - чайник", 418
-
-@app.route("/500")
-def error500():
-    return 1/0
 
 @app.errorhandler(500)
 def internal_error(err):

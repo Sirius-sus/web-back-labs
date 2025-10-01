@@ -141,3 +141,38 @@ def created():
     </body>
 </html>
 ''', 201
+
+
+@lab1.route("/400")
+def err400():
+    return "Некорректный запрос", 400
+
+
+@lab1.route("/401")
+def err401():
+    return "Не авторизован", 401
+
+
+@lab1.route("/402")
+def err402():
+    return "Необходима оплата", 402
+
+
+@lab1.route("/403")
+def err403():
+    return "Запрещено", 403
+
+
+@lab1.route("/405")
+def err405():
+    return "Метод не поддерживается", 405
+
+
+@lab1.route("/418")
+def err418():
+    return "Я - чайник", 418
+
+
+@lab1.route("/500")
+def error500():
+    return 1/0

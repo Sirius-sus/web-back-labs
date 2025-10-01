@@ -47,6 +47,7 @@ def add_flower():
         flowers.lab2end({"name": name, "price": int(price)})
     return redirect(url_for("all_flowers"))
 
+
 @lab2.route('/lab2/example')
 def example():
     name, lab_num, group, course = 'Иван Стародубцев', 2, 'ФБИ-31', 3
@@ -61,22 +62,27 @@ def example():
                            name=name, lab_num=lab_num, group=group,
                            course=course, fruits=fruits)
 
+
 @lab2.route('/lab2/')
 def lab():
     return render_template('lab2.html')
+
 
 @lab2.route('/lab2/filters')
 def filters():
     phrase = "О <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
     return render_template('filter.html', phrase=phrase)
 
+
 @lab2.route('/lab2/calc/')
 def calc_default():
     return redirect('/lab2/calc/1/1')
 
+
 @lab2.route('/lab2/calc/<int:a>')
 def calc_one(a):
     return redirect(f'/lab2/calc/{a}/1')
+
 
 @lab2.route('/lab2/calc/<int:a>/<int:b>')
 def calc(a, b):
@@ -104,6 +110,7 @@ def calc(a, b):
 </html>
 '''
 
+
 books = [
     {"title": "Преступление и наказание", "author": "Ф. Достоевский", "genre": "роман", "pages": 671},
     {"title": "Мастер и Маргарита", "author": "М. Булгаков", "genre": "роман", "pages": 480},
@@ -117,9 +124,11 @@ books = [
     {"title": "Три мушкетёра", "author": "А. Дюма", "genre": "роман", "pages": 704}
 ]
 
+
 @lab2.route('/lab2/books')
 def show_books():
     return render_template('books.html', books=books)
+
 
 cars = [
     {"name": "BMW M3", "desc": "Спортивный седан", "img": "cars/bmw_m3.jpg"},
@@ -143,6 +152,7 @@ cars = [
     {"name": "Subaru Impreza WRX", "desc": "Ралли-легенда", "img": "cars/subaru_wrx.jpg"},
     {"name": "Mitsubishi Lancer Evo", "desc": "Ралли-классика", "img": "cars/mitsubishi_evo.jpg"}
 ]
+
 
 @lab2.route('/lab2/cars')
 def show_cars():
