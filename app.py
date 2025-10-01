@@ -368,3 +368,20 @@ def calc(a, b):
     </body>
 </html>
 '''
+
+books = [
+    {"title": "Преступление и наказание", "author": "Ф. Достоевский", "genre": "роман", "pages": 671},
+    {"title": "Мастер и Маргарита", "author": "М. Булгаков", "genre": "роман", "pages": 480},
+    {"title": "Война и мир", "author": "Л. Толстой", "genre": "эпопея", "pages": 1225},
+    {"title": "Гарри Поттер и философский камень", "author": "Дж. Роулинг", "genre": "фэнтези", "pages": 352},
+    {"title": "1984", "author": "Дж. Оруэлл", "genre": "антиутопия", "pages": 328},
+    {"title": "Маленький принц", "author": "А. де Сент-Экзюпери", "genre": "сказка", "pages": 96},
+    {"title": "Анна Каренина", "author": "Л. Толстой", "genre": "роман", "pages": 864},
+    {"title": "Шерлок Холмс", "author": "А. Конан Дойл", "genre": "детектив", "pages": 560},
+    {"title": "Обломов", "author": "И. Гончаров", "genre": "роман", "pages": 608},
+    {"title": "Три мушкетёра", "author": "А. Дюма", "genre": "роман", "pages": 704}
+]
+
+@app.route('/lab2/books')
+def show_books():
+    return render_template('books.html', books=books)
