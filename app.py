@@ -385,3 +385,30 @@ books = [
 @app.route('/lab2/books')
 def show_books():
     return render_template('books.html', books=books)
+
+cars = [
+    {"name": "BMW M3", "desc": "Спортивный седан", "img": "cars/bmw_m3.jpg"},
+    {"name": "Audi A6", "desc": "Бизнес-седан", "img": "cars/audi_a6.jpg"},
+    {"name": "Mercedes-Benz E-Class", "desc": "Комфорт и престиж", "img": "cars/mercedes_e.jpg"},
+    {"name": "Toyota Camry", "desc": "Надёжный седан", "img": "cars/toyota_camry.jpg"},
+    {"name": "Honda Civic", "desc": "Компактный и экономичный", "img": "cars/honda_civic.jpg"},
+    {"name": "Ford Mustang", "desc": "Знаковое американское купе", "img": "cars/ford_mustang.jpg"},
+    {"name": "Chevrolet Camaro", "desc": "Купе с характером", "img": "cars/chevrolet_camaro.jpg"},
+    {"name": "Tesla Model S", "desc": "Электроседан с автопилотом", "img": "cars/tesla_model_s.jpg"},
+    {"name": "Porsche 911", "desc": "Классическое спортивное купе", "img": "cars/porsche_911.jpg"},
+    {"name": "Lamborghini Aventador", "desc": "Суперкар для скорости", "img": "cars/lamborghini_aventador.jpg"},
+    {"name": "Ferrari 488", "desc": "Итальянский суперкар", "img": "cars/ferrari_488.jpg"},
+    {"name": "Nissan GT-R", "desc": "Японская легенда", "img": "cars/nissan_gtr.jpg"},
+    {"name": "Mazda MX-5", "desc": "Компактный родстер", "img": "cars/mazda_mx5.jpg"},
+    {"name": "Volkswagen Golf", "desc": "Немецкий хэтчбек", "img": "cars/vw_golf.jpg"},
+    {"name": "Kia Sportage", "desc": "Популярный кроссовер", "img": "cars/kia_sportage.jpg"},
+    {"name": "Hyundai Tucson", "desc": "Универсальный кроссовер", "img": "cars/hyundai_tucson.jpg"},
+    {"name": "Jeep Wrangler", "desc": "Внедорожник для приключений", "img": "cars/jeep_wrangler.jpg"},
+    {"name": "Range Rover", "desc": "Премиальный внедорожник", "img": "cars/range_rover.jpg"},
+    {"name": "Subaru Impreza WRX", "desc": "Ралли-легенда", "img": "cars/subaru_wrx.jpg"},
+    {"name": "Mitsubishi Lancer Evo", "desc": "Ралли-классика", "img": "cars/mitsubishi_evo.jpg"}
+]
+
+@app.route('/lab2/cars')
+def show_cars():
+    return render_template('cars.html', cars=cars)
