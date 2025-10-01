@@ -236,12 +236,49 @@ def a2():
 
 flower_list = ['роза', 'тюльпан', 'незабудка', 'ромашка']
 
+@app.route('/lab2/flowers')
+def flowers_all():
+    total = len(flower_list)
+    items = "".join(f"<li>{i+1}. {name}</li>" for i, name in enumerate(flower_list))
+    return f'''
+<!doctype html>
+<html>
+    <head><meta charset="utf-8"><title>Список цветов</title></head>
+    <body>
+        <h1>Список цветов</h1>
+        <p>Всего цветов: {total}</p>
+        <ul>
+            {items}
+        </ul>
+        <p><a href="/lab2/clear_flowers">Очистить список цветов</a></p>
+        <p><a href="/lab2/">Вернуться в лаб.2</a></p>
+    </body>
+</html>
+'''
+
 @app.route('/lab2/flowers/<int:flower_id>')
 def flowers(flower_id):
     if flower_id >= len(flower_list):
         abort(404)
-    else:
-        return 'id=' + flower_list[flower_id]
+    name = flower_list[flower_id]
+    list_url = url_for('flowers_all')
+    return f'''
+<!doctype html>
+<html>
+    <head><meta charset="utf-8"><title>Цветок {name}</title></head>
+    <body>
+        <h1>Информация о цветке</h1>
+        <p>id = {flower_id}</p>
+        <p>название: <b>{name}</b></p>
+        <p><a href="{list_url}">Показать все цветы</a></p>
+        <p><a href="/lab2/">Вернуться в лаб.2</a></p>
+    </body>
+</html>
+'''
+    
+@app.route('/lab2/add_flower/')
+def add_flower_no_name():
+    return "вы не задали имя цветка", 400
     
 @app.route('/lab2/add_flower/<name>')
 def add_flower(name):
@@ -254,6 +291,23 @@ def add_flower(name):
         <p>Название нового цветка: {name} </p>
         <p>Всего цветов: {len(flower_list)}</p>
         <p>Полный список: {flower_list}</p>
+    </body>
+</html>
+'''
+
+@app.route('/lab2/clear_flowers')
+def clear_flowers():
+    global flower_list
+    flower_list = []
+    return f'''
+<!doctype html>
+<html>
+    <head><meta charset="utf-8"><title>Список очищен</title></head>
+    <body>
+        <h1>Список цветов очищен</h1>
+        <p>Теперь цветов: {len(flower_list)}</p>
+        <p><a href="{url_for('flowers_all')}">Показать все цветы</a></p>
+        <p><a href="/lab2/">Вернуться в лаб.2</a></p>
     </body>
 </html>
 '''
