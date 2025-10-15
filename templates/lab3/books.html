@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3 — Фильтр книг по цене{% endblock %}
+
+{% block main %}
+
+<h1>Каталог книг</h1>
+
+<form method="get">
+    <label>Минимальная цена:</label>
+    <div>
+        <input type="number" step="0.01" name="min_price" value="{{ min_price or '' }}" 
+               placeholder="{{ global_min }}">
+    </div>
+
+    <label>Максимальная цена:</label>
+    <div>
+        <input type="number" step="0.01" name="max_price" value="{{ max_price or '' }}" 
+               placeholder="{{ global_max }}">
+    </div>
+
+    <div style="margin-top: 10px;">
+        <button type="submit" name="action" value="search">Искать</button>
+        <button type="submit" name="action" value="reset">Сброс</button>
+    </div>
+</form>
+
+<hr>
+
+{% if books %}
+    <h2>Найдено книг: {{ books|length }}</h2>
+    <ul>
+    {% for book in books %}
+        <li>
+            <b>{{ book.title }}</b> — {{ book.price }} руб.  
+            (Автор: {{ book.author }}, Жанр: {{ book.genre }})
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <h3>Не найдено ни одной книги.</h3>
+{% endif %}
+
+{% endblock %}
