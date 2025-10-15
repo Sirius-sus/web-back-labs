@@ -25,5 +25,48 @@ footer {
 }
 
 .error {
-    color:red
+    color:red;
+}
+
+.form-section {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+    width: 400px;
+}
+
+button {
+    background: #3498db;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    border: 2px solid #bdc3c7;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 400px;
+    box-sizing: border-box;
+}
+
+a {
+    color: #3498db;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    margin-left: 10px;
+    transition: all 0.3s;
+}
+
+a:hover {
+    background: #3498db;
+    color: white;
 }
