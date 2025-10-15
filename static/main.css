@@ -47,7 +47,7 @@ button {
     font-size: 16px;
 }
 
-input[type="text"] {
+.payment {
     padding: 10px;
     border: 2px solid #bdc3c7;
     border-radius: 5px;
