@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <style>
+        body{
+            {% if request.cookies.get('color') %}
+            color: {{ request.cookies.get('color') }};
+            background-color: {{ request.cookies.get('bg_color') }};
+            font-size: {{ request.cookies.get('font_size') }}px;
+            font-weight: {{ request.cookies.get('font_weight') }};
+            {% endif %}
+        }
+    </style>
 </head>
 <body>
     <header>
