@@ -28,7 +28,7 @@ def all_flowers():
 def del_flower(flower_id):
     if 1 <= flower_id <= len(flowers):
         flowers.pop(flower_id - 1)
-        return redirect(url_for("all_flowers"))
+        return redirect(url_for("lab2.all_flowers"))
     else:
         abort(404)
 
@@ -36,7 +36,7 @@ def del_flower(flower_id):
 @lab2.route("/lab2/clear_flowers")
 def clear_flowers():
     flowers.clear()
-    return redirect(url_for("all_flowers"))
+    return redirect(url_for("lab2.all_flowers"))
 
 
 @lab2.route("/lab2/add_flower", methods=["POST"])
@@ -44,8 +44,8 @@ def add_flower():
     name = request.form.get("name")
     price = request.form.get("price")
     if name and price.isdigit():
-        flowers.lab2end({"name": name, "price": int(price)})
-    return redirect(url_for("all_flowers"))
+        flowers.append({"name": name, "price": int(price)})
+    return redirect(url_for("lab2.all_flowers"))
 
 
 @lab2.route('/lab2/example')
