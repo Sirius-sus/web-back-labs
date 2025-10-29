@@ -75,3 +75,17 @@ button:disabled {
     background: #3498db;
     color: white;
 }
+.menu {
+    background-color: lightblue;
+    padding: 20px 10px;
+}
+.link-btn {
+    background: #3498db;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 5px;
+}
