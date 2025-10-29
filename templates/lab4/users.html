@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block lab %}Список пользователей{% endblock %}
+
+{% block main %}
+    <h1>Пользователи</h1>
+    <table border="1" cellpadding="5">
+        <tr><th>Имя</th><th>Логин</th></tr>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.login }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <div style="margin-top: 20px;">
+        <form action="/lab4/delete" method="post" style="display:inline;">
+            <button type="submit">Удалить себя</button>
+        </form>
+        <a href="/lab4/edit"><button>Редактировать данные</button></a>
+    </div>
+{% endblock %}
