@@ -9,6 +9,6 @@
         <a href="/lab5/create" class="link-btn">Создать статью</a>
         <a href="/lab5/login" class="link-btn">Войти</a>
         <a href="/lab5/register" class="link-btn">Регистрация</a>
-        <span class="user-name">Anonymous</span>
+        <span class="user-name">{{ login if login else 'Anonymous' }}</span>
     </div>
 {% endblock %}
