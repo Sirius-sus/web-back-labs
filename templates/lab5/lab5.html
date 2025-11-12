@@ -4,11 +4,14 @@
 
 {% block main %}
     <h1>База знаний</h1>
-    <div class="menu">
+    <div class="menu" style="text-align: center;">
         <a href="/lab5/list" class="link-btn">Список статей</a>
         <a href="/lab5/create" class="link-btn">Создать статью</a>
         <a href="/lab5/login" class="link-btn">Войти</a>
         <a href="/lab5/register" class="link-btn">Регистрация</a>
+        {% if login %}
+            <a href="/lab5/logout" class="link-btn">Выйти</a>
+        {% endif %}
         <span class="user-name">{{ login if login else 'Anonymous' }}</span>
     </div>
 {% endblock %}

@@ -17,6 +17,10 @@
             <textarea name="article_text"></textarea>
         </div>
 
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
         <div>
             <button type="submit">Готово</button>
         </div>

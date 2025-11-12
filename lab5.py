@@ -49,14 +49,14 @@ def register():
     
     conn, cur = db_connect()
 
-    cur.execute("SELECT login FROM users WHERE login=?;", (login, ))
+    cur.execute("SELECT login FROM users WHERE login=%s;", (login, ))
     if cur.fetchone():
         db_close(conn, cur)
         return render_template('lab5/register.html',
                                error="Такой пользователь уже существует!")
     
     password_hash = generate_password_hash(password)
-    cur.execute("INSERT INTO users (login, password) VALUES (?, ?);", (login, password_hash))
+    cur.execute("INSERT INTO users (login, password) VALUES (%s, %s);", (login, password_hash))
     
     db_close(conn, cur)
     return render_template('lab5/success.html', login=login)
@@ -74,7 +74,7 @@ def login():
     
     conn, cur = db_connect()
 
-    cur.execute("SELECT * FROM users WHERE login=?;", (login, ))
+    cur.execute("SELECT * FROM users WHERE login=%s;", (login, ))
     user = cur.fetchone()
 
     if not user:
@@ -104,13 +104,16 @@ def create():
     title = request.form.get('title')
     article_text = request.form.get('article_text')
 
+    if not title or not article_text:
+        return render_template('lab5/create_article.html', error='Заполните все поля')
+
     conn, cur = db_connect()
     
-    cur.execute("SELECT * FROM users WHERE login=?;", (login, ))
+    cur.execute("SELECT * FROM users WHERE login=%s;", (login, ))
     login_id = cur.fetchone()["id"]
 
     cur.execute("INSERT INTO articles(user_id, title, article_text) \
-                VALUES (?, ?, ?);", (login_id, title, article_text))
+                VALUES (%s, %s, %s);", (login_id, title, article_text))
     
     db_close(conn, cur)
     return redirect('/lab5')
@@ -123,11 +126,56 @@ def list():
     
     conn, cur = db_connect()
 
-    cur.execute("SELECT id FROM users WHERE login=?;", (login, ))
+    cur.execute("SELECT id FROM users WHERE login=%s;", (login, ))
     login_id = cur.fetchone()["id"]
 
-    cur.execute("SELECT * FROM articles WHERE user_id=?;", (login_id, ))
+    cur.execute("SELECT * FROM articles WHERE user_id=%s;", (login_id, ))
     articles = cur.fetchall()
+
+    if not articles:
+        db_close(conn, cur)
+        return render_template('/lab5/articles.html', articles=[], message='У вас нет статей')
 
     db_close(conn, cur)
     return render_template('/lab5/articles.html', articles=articles)
+
+@lab5.route('/lab5/logout')
+def logout():
+    session.pop('login', None)
+    return redirect('/lab5')
+
+@lab5.route('/lab5/edit/<int:article_id>', methods=['GET', 'POST'])
+def edit_article(article_id):
+    login = session.get('login')
+    if not login:
+        return redirect('/lab5/login')
+
+    conn, cur = db_connect()
+    cur.execute("SELECT * FROM articles WHERE id=%s;", (article_id,))
+    article = cur.fetchone()
+
+    if request.method == 'GET':
+        db_close(conn, cur)
+        return render_template('lab5/edit_article.html', article=article)
+
+    title = request.form.get('title')
+    article_text = request.form.get('article_text')
+
+    if not title or not article_text:
+        db_close(conn, cur)
+        return render_template('lab5/edit_article.html', article=article, error='Заполните все поля')
+
+    cur.execute("UPDATE articles SET title=%s, article_text=%s WHERE id=%s;", (title, article_text, article_id))
+    db_close(conn, cur)
+    return redirect('/lab5/list')
+
+@lab5.route('/lab5/delete/<int:article_id>')
+def delete_article(article_id):
+    login = session.get('login')
+    if not login:
+        return redirect('/lab5/login')
+
+    conn, cur = db_connect()
+    cur.execute("DELETE FROM articles WHERE id=%s;", (article_id,))
+    db_close(conn, cur)
+    return redirect('/lab5/list')
