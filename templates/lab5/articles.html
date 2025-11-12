@@ -6,7 +6,17 @@
     <h1>Статьи</h1>
     {% for article in articles %}
         <h2>{{ article['title'] }}</h2>
-        <blockquote>{{ article['article_text'] }}</blockquote>
+        <blockquote>
+            {{ article['article_text'] }}
+            {% if article['is_favorite'] %}
+                <br>
+                <span style="color: red;">★ Любимая</span>
+            {% endif %}
+        </blockquote>
+        
+        <a href="/lab5/favorite/{{ article['id'] }}">
+            {% if article['is_favorite'] %}Убрать из любимых{% else %}В любимые{% endif %}
+        </a>
         <a href="/lab5/edit/{{ article['id'] }}">Редактировать</a>
         <a href="/lab5/delete/{{ article['id'] }}">Удалить</a>
     {% endfor %}
