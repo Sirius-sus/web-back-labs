@@ -200,3 +200,21 @@ th, td {
     padding: 5px;
     text-align: left;
 }
+
+li {
+    margin: 2px;
+}
+
+.book {
+    margin: 0px 10px;
+    background-color: steelblue;
+}
+
+#office-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
