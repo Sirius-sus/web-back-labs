@@ -59,6 +59,9 @@ function deleteFilm(id, title) {
 }
 
 function showModal() {
+    document.getElementById('title-error').innerText = '';
+    document.getElementById('title-ru-error').innerText = '';
+    document.getElementById('year-error').innerText = '';
     document.getElementById('description-error').innerText = '';
     document.querySelector('div.modal').style.display = 'block';
 }
