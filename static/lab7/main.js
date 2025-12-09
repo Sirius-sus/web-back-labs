@@ -81,6 +81,9 @@ function addFilm() {
 }
 
 function sendFilm() {
+    document.getElementById('title-error').innerText = '';
+    document.getElementById('title-ru-error').innerText = '';
+    document.getElementById('year-error').innerText = '';
     document.getElementById('description-error').innerText = '';
 
     const id = document.getElementById('id').value;
@@ -108,7 +111,16 @@ function sendFilm() {
         return resp.json();
     })
     .then(function(errors) {
-        if(errors.description)
+        if (errors.title)
+            document.getElementById('title-error').innerText = errors.title;
+
+        if (errors.title_ru)
+            document.getElementById('title-ru-error').innerText = errors.title_ru;
+
+        if (errors.year)
+            document.getElementById('year-error').innerText = errors.year;
+
+        if (errors.description)
             document.getElementById('description-error').innerText = errors.description;
     })
 }

@@ -94,12 +94,38 @@ def put_film(id):
         return '', 404
 
     film = request.get_json()
-    
+
+    # автозаполнение оригинального названия
     if film.get('title') == '' and film.get('title_ru'):
         film['title'] = film['title_ru']
 
-    if film['description'] == '':
-        return {'description': 'Заполните описание'}, 400
+    errors = {}
+
+    # русское название обязательно
+    if not film.get('title_ru', '').strip():
+        errors['title_ru'] = 'Русское название обязательно'
+
+    # оригинальное название обязательно, если русское пустое
+    if not film.get('title', '').strip() and not film.get('title_ru', '').strip():
+        errors['title'] = 'Введите хотя бы одно название'
+
+    # год от 1895 до 2025
+    try:
+        year = int(film.get('year', 0))
+        if year < 1895 or year > 2025:
+            errors['year'] = 'Год должен быть от 1895 до 2025'
+    except:
+        errors['year'] = 'Год должен быть числом'
+
+    # описание непустое и до 2000 символов
+    desc = film.get('description', '').strip()
+    if not desc:
+        errors['description'] = 'Описание обязательно'
+    elif len(desc) > 2000:
+        errors['description'] = 'Описание не должно превышать 2000 символов'
+
+    if errors:
+        return errors, 400
 
     films[id] = film
     return films[id]
@@ -107,12 +133,38 @@ def put_film(id):
 @lab7.route('/lab7/rest-api/films/', methods=['POST'])
 def add_film():
     film = request.get_json()
-    
+
+    # автозаполнение оригинального названия
     if film.get('title') == '' and film.get('title_ru'):
         film['title'] = film['title_ru']
 
-    if film['description'] == '':
-        return {'description': 'Заполните описание'}, 400
+    errors = {}
+
+    # русское название обязательно
+    if not film.get('title_ru', '').strip():
+        errors['title_ru'] = 'Русское название обязательно'
+
+    # оригинальное название обязательно, если русское пустое
+    if not film.get('title', '').strip() and not film.get('title_ru', '').strip():
+        errors['title'] = 'Введите хотя бы одно название'
+
+    # год от 1895 до 2025
+    try:
+        year = int(film.get('year', 0))
+        if year < 1895 or year > 2025:
+            errors['year'] = 'Год должен быть от 1895 до 2025'
+    except:
+        errors['year'] = 'Год должен быть числом'
+
+    # описание непустое и до 2000 символов
+    desc = film.get('description', '').strip()
+    if not desc:
+        errors['description'] = 'Описание обязательно'
+    elif len(desc) > 2000:
+        errors['description'] = 'Описание не должно превышать 2000 символов'
+
+    if errors:
+        return errors, 400
 
     films.append(film)
     return str(len(films) - 1)
