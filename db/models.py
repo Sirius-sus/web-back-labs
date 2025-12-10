@@ -22,3 +22,7 @@ class gift_box(db.Model):
     is_opened = db.Column(db.Boolean, nullable=False, default=False)
     message = db.Column(db.String(255), nullable=True)
     auth_required = db.Column(db.Boolean, nullable=False, default=False)
+
+class cell_booking(db.Model):
+    cell_number = db.Column(db.Integer, primary_key=True)
+    tenant_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
