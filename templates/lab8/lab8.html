@@ -9,6 +9,8 @@
         <a href="/lab8/register" class="link-btn">Регистрация</a>
         <a href="/lab8/articles" class="link-btn">Список статей</a>
         <a href="/lab8/create" class="link-btn">Создать статью</a>
-        <span class="user-name">{{ login if login else 'Anonymous' }}</span>
+        <span class="user-name">
+            {{ current_user.login if current_user.is_authenticated else 'Anonymous' }}
+        </span>
     </div>
 {% endblock %}
