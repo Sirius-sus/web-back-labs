@@ -9,6 +9,9 @@
         <a href="/lab8/register" class="link-btn">Регистрация</a>
         <a href="/lab8/articles" class="link-btn">Список статей</a>
         <a href="/lab8/create" class="link-btn">Создать статью</a>
+        {% if current_user.is_authenticated %}
+            <a href="/lab8/logout" class="link-btn">Выйти</a>
+        {% endif %}
         <span class="user-name">
             {{ current_user.login if current_user.is_authenticated else 'Anonymous' }}
         </span>
