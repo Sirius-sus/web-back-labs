@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 8{% endblock %}
+
+{% block main %}
+    <h1>Статьи</h1>
+
+    {% for article in articles %}
+        <h2>{{ article.title }}</h2>
+
+        <blockquote>
+            {{ article.article_text }}
+            {% if article.is_favorite %}
+                <br>
+                <span style="color: red;">★ Любимая</span>
+            {% endif %}
+        </blockquote>
+
+        <a href="/lab8/edit/{{ article.id }}">Редактировать</a>
+        <a href="/lab8/delete/{{ article.id }}">Удалить</a>
+    {% endfor %}
+
+    {% if message %}
+        <p style="text-align: center;">{{ message }}</p>
+    {% endif %}
+{% endblock %}

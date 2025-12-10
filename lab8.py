@@ -71,13 +71,85 @@ def login():
     return render_template('lab8/login.html',
                            error='Ошибка входа: логин и/или пароль неверны')
 
-@lab8.route('/lab8/articles')
-@login_required
-def article_list():
-    return "Список статей"
-
 @lab8.route('/lab8/logout')
 @login_required
 def logout():
     logout_user()
     return redirect('/lab8/')
+
+@lab8.route('/lab8/create', methods=['GET', 'POST'])
+@login_required
+def create_article():
+    if request.method == 'GET':
+        return render_template('lab8/create_article.html')
+
+    title = request.form.get('title')
+    article_text = request.form.get('article_text')
+    is_public = bool(request.form.get('is_public'))
+
+    if not title or not article_text:
+        return render_template('lab8/create_article.html', error='Заполните все поля')
+
+    new_article = articles(
+        login_id=current_user.id,
+        title=title,
+        article_text=article_text,
+        is_public=is_public,
+        is_favorite=False,
+        likes=0,
+    )
+
+    db.session.add(new_article)
+    db.session.commit()
+
+    return redirect('/lab8/articles')
+
+@lab8.route('/lab8/articles')
+@login_required
+def article_list():
+    user_articles = articles.query.filter_by(login_id=current_user.id)\
+                                  .order_by(articles.id).all()
+
+    if not user_articles:
+        return render_template('lab8/articles.html', articles=[], message='У вас нет статей')
+
+    return render_template('lab8/articles.html', articles=user_articles)
+
+@lab8.route('/lab8/edit/<int:article_id>', methods=['GET', 'POST'])
+@login_required
+def edit_article(article_id):
+    article = articles.query.filter_by(id=article_id, login_id=current_user.id).first()
+
+    if not article:
+        return redirect('/lab8/articles')
+
+    if request.method == 'GET':
+        return render_template('lab8/edit_article.html', article=article)
+
+    title = request.form.get('title')
+    article_text = request.form.get('article_text')
+
+    if not title or not article_text:
+        return render_template('lab8/edit_article.html',
+                               article=article,
+                               error='Заполните все поля')
+
+    article.title = title
+    article.article_text = article_text
+
+    db.session.commit()
+
+    return redirect('/lab8/articles')
+
+@lab8.route('/lab8/delete/<int:article_id>')
+@login_required
+def delete_article(article_id):
+    article = articles.query.filter_by(id=article_id, login_id=current_user.id).first()
+
+    if not article:
+        return redirect('/lab8/articles')
+
+    db.session.delete(article)
+    db.session.commit()
+
+    return redirect('/lab8/articles')
