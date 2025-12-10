@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 8{% endblock %}
+
+{% block main %}
+<h1>Поиск по статьям</h1>
+
+<form method="post">
+    <input type="text" name="query" value="{{ query or '' }}" placeholder="Введите строку для поиска">
+    <button type="submit">Искать</button>
+</form>
+
+{% if query %}
+    <h2>Результаты поиска:</h2>
+
+    {% if results %}
+        {% for article in results %}
+            <h3>{{ article.title }}</h3>
+            <blockquote>{{ article.article_text }}</blockquote>
+        {% endfor %}
+    {% else %}
+        <p>Ничего не найдено.</p>
+    {% endif %}
+{% endif %}
+
+{% endblock %}

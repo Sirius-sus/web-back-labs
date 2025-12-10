@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 8{% endblock %}
+
+{% block main %}
+<h1>Публичные статьи</h1>
+
+{% if articles %}
+    {% for article in articles %}
+        <h2>{{ article.title }}</h2>
+        <blockquote>{{ article.article_text }}</blockquote>
+    {% endfor %}
+{% else %}
+    <p style="text-align: center;">Пока нет публичных статей.</p>
+{% endif %}
+
+{% endblock %}

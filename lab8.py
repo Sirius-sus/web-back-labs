@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, session, curren
 from db import db
 from db.models import users, articles
 from flask_login import login_user, login_required, current_user, logout_user
+from sqlalchemy import or_
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -153,3 +154,41 @@ def delete_article(article_id):
     db.session.commit()
 
     return redirect('/lab8/articles')
+
+@lab8.route('/lab8/public')
+def public_articles():
+    public_articles = articles.query.filter_by(is_public=True).order_by(articles.id.desc()).all()
+    return render_template('lab8/public_articles.html', articles=public_articles)
+
+@lab8.route('/lab8/search', methods=['GET', 'POST'])
+def search():
+    query = None
+    results = []
+
+    if request.method == 'POST':
+        query = request.form.get('query')
+
+        if query:
+            pattern = f"%{query}%"
+
+            if current_user.is_authenticated:
+                results = articles.query.filter(
+                    or_(
+                        articles.title.ilike(pattern),
+                        articles.article_text.ilike(pattern)
+                    ),
+                    or_(
+                        articles.is_public == True,
+                        articles.login_id == current_user.id
+                    )
+                ).all()
+            else:
+                results = articles.query.filter(
+                    or_(
+                        articles.title.ilike(pattern),
+                        articles.article_text.ilike(pattern)
+                    ),
+                    articles.is_public == True
+                ).all()
+
+    return render_template('lab8/search.html', results=results, query=query)
