@@ -2,8 +2,60 @@
 
 {% block lab %}Лабораторная работа 9{% endblock %}
 
-{% block script %}{% endblock %}
+{% block script %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.gift-box').forEach(box => {
+        box.addEventListener('click', async () => {
+            const id = box.dataset.id;
+            const isOpened = box.dataset.opened === "true";
+
+            if (isOpened) return;
+
+            const r = await fetch('/lab9/open_box', {
+                method: 'POST',
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({box_id: id})
+            });
+
+            const result = await r.json();
+
+            if (result.limit_exceeded) {
+                alert("Вы уже открыли 3 подарка");
+                return;
+            }
+
+            if (result.success) {
+                window.location = result.redirect_url;
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
 
 {% block main %}
-    <h1>Поздравления</h1>
+<div style=" position:fixed; bottom:0; left:0; width:100%; height:400px;
+background-image:url('/static/lab9/bg.jpg'); background-size:cover; background-position:center;
+transform:rotate(180deg); z-index:-1;
+"></div>
+
+<h1>Поздравления</h1>
+
+<div style="text-align:center;">
+    Осталось неоткрытых коробок:
+    <span>{{ unopened_count }}</span>
+</div>
+
+<div id="gift-container" style="position: relative; width: 100%;">
+    {% for b in boxes %}
+    <div class="gift-box"
+         data-id="{{ b.id }}"
+         data-opened="{{ 'true' if b.is_opened else 'false' }}"
+         style="position:absolute; top:{{ b.pos_top }}px; left:{{ b.pos_left }}px; cursor:pointer; opacity: {{ 0.5 if b.is_opened else 1 }};">
+        <img src="/static/lab9/gift_{{ b.id }}.jpg"
+             style="max-width:150px; max-height:150px;">
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

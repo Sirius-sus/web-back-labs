@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block lab %}Поздравление{% endblock %}
+
+{% block main %}
+<div style=" position:fixed; bottom:0; left:0; width:100%; height:400px;
+background-image:url('/static/lab9/bg.jpg'); background-size:cover; background-position:center;
+transform:rotate(180deg); z-index:-1;
+"></div>
+
+<div style="width:100%; height:80vh; display:flex; flex-direction:column;
+justify-content:center; align-items:center; gap:20px; text-align:center;
+">
+    <img src="{{ img_path }}" style="max-width:80%; max-height:70%;">
+    <div style="font-size:22px; max-width:70%;">
+        {{ message }}
+    </div>
+    <a href="/lab9/" style="font-size:20px;">Вернуться к подаркам</a>
+</div>
+{% endblock %}
