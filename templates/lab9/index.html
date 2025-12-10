@@ -25,37 +25,69 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            if (result.auth_needed) {
+                alert("Этот подарок доступен только авторизованным пользователям.");
+                return;
+            }
+
             if (result.success) {
                 window.location = result.redirect_url;
             }
         });
     });
+
+    const resetBtn = document.getElementById('reset-btn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', async () => {
+            const r = await fetch('/lab9/reset_boxes', { method: 'POST' });
+            const res = await r.json();
+            if (res.success) {
+                window.location.reload();
+            }
+        });
+    }
 });
 </script>
 {% endblock %}
 
 {% block main %}
-<div style=" position:fixed; bottom:0; left:0; width:100%; height:400px;
-background-image:url('/static/lab9/bg.jpg'); background-size:cover; background-position:center;
-transform:rotate(180deg); z-index:-1;
-"></div>
 
-<h1>Поздравления</h1>
+<div style="position:fixed; bottom:0; left:0; width:100%; height:400px;
+background-image:url('/static/lab9/bg.jpg'); background-size:cover;
+background-position:center; transform:rotate(180deg); z-index:-1;">
+</div>
 
-<div style="text-align:center;">
+<h1 style="text-align:center;">Поздравления</h1>
+
+{% if current_user.is_authenticated %}
+<div style="text-align:center; margin:20px;">
+    <button id="reset-btn">Дед Мороз</button>
+</div>
+{% endif %}
+
+<div style="text-align:center; font-size:22px; margin-top:10px;">
     Осталось неоткрытых коробок:
     <span>{{ unopened_count }}</span>
 </div>
 
-<div id="gift-container" style="position: relative; width: 100%;">
+<div id="gift-container" style="position:relative; width:100%;">
+
     {% for b in boxes %}
     <div class="gift-box"
          data-id="{{ b.id }}"
          data-opened="{{ 'true' if b.is_opened else 'false' }}"
-         style="position:absolute; top:{{ b.pos_top }}px; left:{{ b.pos_left }}px; cursor:pointer; opacity: {{ 0.5 if b.is_opened else 1 }};">
+         style="position:absolute;
+                top:{{ b.pos_top }}px;
+                left:{{ b.pos_left }}px;
+                cursor:pointer;
+                opacity: {{ 0.5 if b.is_opened else 1 }};
+                border: {% if b.auth_required %} 3px solid gold {% else %} none {% endif %};
+                border-radius:10px;">
         <img src="/static/lab9/gift_{{ b.id }}.jpg"
              style="max-width:150px; max-height:150px;">
     </div>
     {% endfor %}
+
 </div>
+
 {% endblock %}

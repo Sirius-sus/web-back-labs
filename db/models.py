@@ -21,3 +21,4 @@ class gift_box(db.Model):
     pos_left = db.Column(db.Integer, nullable=False)
     is_opened = db.Column(db.Boolean, nullable=False, default=False)
     message = db.Column(db.String(255), nullable=True)
+    auth_required = db.Column(db.Boolean, nullable=False, default=False)

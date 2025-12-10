@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, jsonify, session, redirect
 from db import db
 from db.models import gift_box
+from flask_login import current_user, login_required
 
 lab9 = Blueprint('lab9', __name__)
 
@@ -26,6 +27,9 @@ def open_box():
     if not box:
         return jsonify({'error': 'not found'}), 404
 
+    if box.auth_required and not current_user.is_authenticated:
+        return jsonify({'auth_needed': True})
+
     if box.is_opened:
         return jsonify({'already_opened': True})
 
@@ -42,6 +46,15 @@ def open_box():
 
     return jsonify({'success': True,
                     'redirect_url': f'/lab9/congratulation/{box_id}'})
+
+
+@lab9.route('/lab9/reset_boxes', methods=['POST'])
+@login_required
+def reset_boxes():
+    db.session.query(gift_box).update({gift_box.is_opened: False})
+    db.session.commit()
+    session['opened_count'] = 0
+    return jsonify({'success': True})
 
 
 @lab9.route('/lab9/congratulation/<int:box_id>')
